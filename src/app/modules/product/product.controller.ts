@@ -36,8 +36,32 @@ const postProduct = async (req: Request, res: Response) => {
   }
 };
 const getAllProducts=async(req:Request,res:Response)=>{
+    const search=typeof req.query.searchTerm === 'string' ? req.query.searchTerm : null;
+    if(search){
+        // console.log(search)
     try{
-        const result=await ProductServices.getAllProductFromDB()
+        const result=await ProductServices.getAllProductFromDB(search)
+        // console.log(result)
+        res.status(200).json({
+            success: true,
+            message: `Products matching search term '${search}' fetched successfully!`,
+            data: result,
+          });
+
+    }
+    catch(err:any){
+        res.status(500).json({
+            success: false,
+            message: err.message||'something wrong',
+            error: err,
+          });
+    }
+
+    }
+    else{
+    console.log(search)
+    try{
+        const result=await ProductServices.getAllProductFromDB(null)
         res.status(200).json({
             success: true,
             message: "Products fetched successfully!",
@@ -51,7 +75,7 @@ const getAllProducts=async(req:Request,res:Response)=>{
             message: err.message||'something wrong',
             error: err,
           });
-    }
+    }}
    
 
 }
@@ -145,7 +169,7 @@ const deleteProduct=async(req:Request,res:Response)=>{
         res.status(200).json({
             success: true,
             message: "Product deleted successfully!",
-            data: result,
+            data: null,
           });
 
         

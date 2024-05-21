@@ -15,7 +15,22 @@ const postProductIntoDB=async(productData:ProductInterface)=>{
 
 
 }
-const getAllProductFromDB=async()=>{
+const getAllProductFromDB=async(search:string|null)=>{
+    if (search){
+        const query = {
+            $or: [
+                { name: new RegExp(search, 'i') },
+                { description: new RegExp(search, 'i') },
+                { category: new RegExp(search, 'i') }
+            ]
+        };
+
+        const result= await productModel.find(query);
+        return result;
+
+
+    }
+    else{
     try{
         const result=await productModel.find()
         return result;
@@ -23,7 +38,7 @@ const getAllProductFromDB=async()=>{
     }
     catch(err){
         console.log(err)
-    }
+    }}
 
 }
 const getSingleProductFromDB=async(productId:string)=>{
