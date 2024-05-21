@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { ProductServices } from './product.service';
 import productJoiValidation from './product.validation';
+import { ProductInterface } from './product.interface';
+import { productModel } from '../product.model';
 
 
 const postProduct = async (req: Request, res: Response) => {
@@ -56,14 +58,42 @@ const getAllProducts=async(req:Request,res:Response)=>{
 
 const getSingleProduct=async(req:Request,res:Response)=>{
     const {productId}=req.params
+
     try{
-        const result=await ProductServices.getSingleProductFromDB(productId)
-        
+        if (productId){
+           
+            const result=await ProductServices.getSingleProductFromDB(productId)
+            // console.log(result)
+            if (result){
+                        
+            res.status(200).json({
+                success: true,
+                message:  "Product fetched successfully!",
+                data: result,
+              });
+
+            }
+            else{
+               return res.status(500).json({
+                    success: false,
+                    message: 'product not available',
+                    
+                  });
+
+            }
+
+
+        }
+        else{
+            const result=await ProductServices.getAllProductFromDB()
         res.status(200).json({
             success: true,
-            message:  "Product fetched successfully!",
+            message: "Products fetched successfully!",
             data: result,
           });
+
+        }
+
 
 
     }
@@ -78,8 +108,63 @@ const getSingleProduct=async(req:Request,res:Response)=>{
     }
 }
 
+const updateProduct=async(req:Request,res:Response)=>{
+    const {productId}=req.params
+    const updateData = req.body;
+    try{
+        const { value } = productJoiValidation.validate(updateData);
+        const result= await ProductServices.updateProductDb(productId,value)
+        
+        // console.log(result)
+   
+            res.status(200).json({
+                success: true,
+                message: "Product updated successfully!",
+                data: result,
+              });
+
+        
+
+
+    }
+    catch(err:any){
+        res.status(500).json({
+            success: false,
+            message: err.message||'something wrong',
+            error: err,
+          });
+
+    }
+
+}
+
+const deleteProduct=async(req:Request,res:Response)=>{
+    try{
+        const {productId}=req.params
+        const result=await ProductServices.deleteProductDb(productId)
+        res.status(200).json({
+            success: true,
+            message: "Product deleted successfully!",
+            data: result,
+          });
+
+        
+    }
+    catch(err:any){
+        res.status(500).json({
+            success: false,
+            message: err.message||'something wrong',
+            error: err,
+          });
+    }
+
+
+}
+
 export const productController={
     postProduct,
     getAllProducts,
-    getSingleProduct
+    getSingleProduct,
+    updateProduct,
+    deleteProduct
 }

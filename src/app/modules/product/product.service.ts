@@ -36,8 +36,35 @@ const getSingleProductFromDB=async(productId:string)=>{
    }
 }
 
+const updateProductDb=async(productId:string,updateData:ProductInterface)=>{
+    try{
+        const result = await productModel.findByIdAndUpdate({ _id: productId }, { $set: updateData },{new:true});
+        // console.log(result)
+        return result;
+
+
+
+    }
+    catch(err){
+        console.log(err)
+    }
+
+}
+
+const deleteProductDb=async(productId:string)=>{
+    try{
+        const result=await productModel.findByIdAndDelete({ _id: productId })
+        return result;
+
+    }catch(err){
+        console.log(err)
+    }
+
+}
 export const ProductServices={
     postProductIntoDB,
     getAllProductFromDB,
-    getSingleProductFromDB
+    getSingleProductFromDB,
+    updateProductDb,
+    deleteProductDb
 }
