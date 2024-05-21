@@ -42,11 +42,23 @@ const getAllProducts=async(req:Request,res:Response)=>{
     try{
         const result=await ProductServices.getAllProductFromDB(search)
         // console.log(result)
-        res.status(200).json({
-            success: true,
-            message: `Products matching search term '${search}' fetched successfully!`,
-            data: result,
-          });
+        if(result.length>0){
+            res.status(200).json({
+                success: true,
+                message: `Products matching search term '${search}' fetched successfully!`,
+                data: result,
+              });
+
+        }
+        else{
+            res.status(500).json({
+                success: false,
+                message: `Product not available`,
+                
+              });
+
+        }
+
 
     }
     catch(err:any){
@@ -165,12 +177,31 @@ const updateProduct=async(req:Request,res:Response)=>{
 const deleteProduct=async(req:Request,res:Response)=>{
     try{
         const {productId}=req.params
-        const result=await ProductServices.deleteProductDb(productId)
-        res.status(200).json({
-            success: true,
-            message: "Product deleted successfully!",
-            data: null,
-          });
+        const deletedExist=await ProductServices.getSingleProductFromDB(productId)
+        if(deletedExist){
+            const result=await ProductServices.deleteProductDb(productId)
+            res.status(200).json({
+                success: true,
+                message: "Product deleted successfully!",
+                data: null,
+              });
+
+        }
+        
+        // console.log(result,"from del2")
+        
+      
+           
+    
+
+        else{
+            res.status(500).json({
+                success: false,
+                message: "Product not found",
+                
+              });
+
+        }
 
         
     }

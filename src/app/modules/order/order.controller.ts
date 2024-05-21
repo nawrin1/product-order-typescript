@@ -98,7 +98,18 @@ const postOrder= async (req: Request, res: Response) => {
   }
 };
 const getAllOrders = async (req: Request, res: Response) => {
-    const email = typeof req.query.email === 'string' ? req.query.email : null;
+    console.log(Object.keys(req.query)[0])
+    const queryKeys = Object.keys(req.query);
+
+    if (queryKeys.length > 0 && queryKeys[0] !== "email") {
+        return res.status(404).json({
+            success: false,
+            message: "Route not found"
+        });
+    }
+
+
+    const email = typeof req.query?.email === 'string' ? req.query?.email : null;
 
     try {
         const result = await OrderServices.getAllOrderFromDB(email);
