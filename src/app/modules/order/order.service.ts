@@ -1,9 +1,15 @@
 
 import { orderModel } from '../order.model';
+import { productModel } from '../product.model';
 import { OrderInterface } from './order.interface';
 
 const postOrderIntoDB=async(orderData:OrderInterface)=>{
+
     try{
+        // const orderExist=await productModel.find({_id:orderData.productId})
+        // // console.log(orderExist)
+        // return orderExist;
+
         const result= await orderModel.create(orderData)
         return result
 
