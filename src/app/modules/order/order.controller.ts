@@ -35,50 +35,42 @@ const postOrder= async (req: Request, res: Response) => {
     });
   }
 };
-const getAllOrders=async(req:Request,res:Response)=>{
-    const email=typeof req.query.email === 'string' ? req.query.email : null;
-    if(email){
-        // console.log(search)
-    try{
-        const result=await OrderServices.getAllOrderFromDB(email)
-        // console.log(result)
+const getAllOrders = async (req: Request, res: Response) => {
+    const email = typeof req.query.email === 'string' ? req.query.email : null;
+
+    try {
+        const result = await OrderServices.getAllOrderFromDB(email);
+        if(result.length>0){
+            const message = email 
+            ? "Orders fetched successfully for user email!" 
+            : "Orders fetched successfully!";
+        
+
         res.status(200).json({
             success: true,
-            message: "Orders fetched successfully for user email!",
+            message,
             data: result,
-          });
+        });
 
-    }
-    catch(err:any){
+        }
+        else{
+            res.status(500).json({
+                success: false,
+                message: "email not available",
+                
+            });
+
+        }
+        
+    } catch (err: any) {
         res.status(500).json({
             success: false,
-            message: err.message||'something wrong',
+            message: err.message || 'Something went wrong',
             error: err,
-          });
+        });
     }
+};
 
-    }
-    else{
-    // console.log(search)
-    try{
-        const result=await OrderServices.getAllOrderFromDB(null)
-        res.status(200).json({
-            success: true,
-            message: "Orders fetched successfully!",
-            data: result,
-          });
-
-    }
-    catch(err:any){
-        res.status(500).json({
-            success: false,
-            message: err.message||'something wrong',
-            error: err,
-          });
-    }}
-   
-
-}
 
 
 
