@@ -46,6 +46,5 @@ npm run build
 ** To start server you need to use
 ```
 npm run start:dev
-
-``
+```
 
