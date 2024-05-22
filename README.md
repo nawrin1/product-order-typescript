@@ -6,8 +6,23 @@
     "joi": "^17.13.1",
     "mongoose": "^8.4.0"
 ```
+** For installing eslint and prettier use the following command
+```
+npm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev
 
-** You may need to install all the devDependencies
+```
+```
+npm install --save-dev prettier
+
+```
+```
+npm install --save-dev eslint-config-prettier
+
+```
+
+
+
+** You may need to install all the devDependencies.Your dependencies need to look like this.
 ```
 "@eslint/js": "^9.3.0",
     "@types/cors": "^2.8.17",
@@ -26,9 +41,11 @@
 ** To compile you may use the command
 ```
 npm run build
+
 ```
 ** To start server you need to use
 ```
 npm run start:dev
+
 ``
 
