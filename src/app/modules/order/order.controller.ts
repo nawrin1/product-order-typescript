@@ -98,7 +98,7 @@ const postOrder= async (req: Request, res: Response) => {
   }
 };
 const getAllOrders = async (req: Request, res: Response) => {
-    console.log(Object.keys(req.query)[0])
+    // console.log(Object.keys(req.query)[0])
     const queryKeys = Object.keys(req.query);
 
     if (queryKeys.length > 0 && queryKeys[0] !== "email") {

@@ -36,6 +36,14 @@ const postProduct = async (req: Request, res: Response) => {
   }
 };
 const getAllProducts=async(req:Request,res:Response)=>{
+  const queryKeys = Object.keys(req.query);
+
+  if (queryKeys.length > 0 && queryKeys[0] !== "searchTerm") {
+      return res.status(404).json({
+          success: false,
+          message: "Route not found"
+      });
+  }
     const search=typeof req.query.searchTerm === 'string' ? req.query.searchTerm : null;
     if(search){
         // console.log(search)
@@ -71,7 +79,7 @@ const getAllProducts=async(req:Request,res:Response)=>{
 
     }
     else{
-    console.log(search)
+    // console.log(search)
     try{
         const result=await ProductServices.getAllProductFromDB(null)
         res.status(200).json({
