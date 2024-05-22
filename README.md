@@ -22,4 +22,13 @@
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.10.0"
 ```
+** You have to create a .env file and attach the port and your mongodb uri to connect with database
+** To compile you may use the command
+```
+npm run build
+```
+** To start server you need to use
+```
+npm run start:dev
+``
 
