@@ -41,10 +41,20 @@ npm install --save-dev eslint-config-prettier
 ** To compile you may use the command
 ```
 npm run build
-
 ```
 ** To start server you need to use
 ```
 npm run start:dev
+```
+** You may use these command using npm run 'youe desired command' to get your desired functionality
+```
+ "start:prod": "node ./dist/server.js",
+    "start:dev": " ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "lint": "eslint src --ignore-path .eslintignore --ext .ts",
+    "fix": "npx eslint src --fix",
+    "prettier": "prettier --ignore-path .gitignore --write \"./src/**/*.+(js|ts|json)\"",
+    "prettier:fix": "npx prettier --write src",
+    "test": "echo \"Error: no test specified\" && exit 1"
 ```
 
