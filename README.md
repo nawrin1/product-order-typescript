@@ -46,7 +46,7 @@ npm run build
 ```
 npm run start:dev
 ```
-** You may use these command using npm run 'youe desired command' to get your desired functionality
+** You may use these command using npm run 'your desired command' to get your desired functionality
 ```
  "start:prod": "node ./dist/server.js",
     "start:dev": " ts-node-dev --respawn --transpile-only src/server.ts",
